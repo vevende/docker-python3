@@ -38,7 +38,4 @@ ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
 
 RUN gosu app pip install --no-cache-dir pip setuptools wheel
 
-ONBUILD COPY requirements.txt /requirements.txt
-ONBUILD RUN "gosu app python install --no-cache-dir -r /requirements.txt"
-
 CMD ["gosu", "app", "python"]
