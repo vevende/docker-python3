@@ -10,12 +10,15 @@ echo " * Loaded entrypoint"
 sudo chown app.app -R /app
 sudo chown app.app -R /python
 
+cd /app
+
 case "$1" in
     make)
         set -- gosu app "$@"
         ;;
     python|uwsgi)
         gosu app /python/bin/pip install -r requirements.txt
+        gosu app /python/bin/python setup.py develop
 
         set -- gosu app "$@"
         ;;
