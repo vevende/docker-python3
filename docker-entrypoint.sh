@@ -5,20 +5,28 @@ export LC_COLLATE=C
 
 source /python/bin/activate
 
-echo " * Loaded entrypoint"
+find /python /app ! -user app -exec chown app:app {} \;
 
-sudo chown app.app -R /app
-sudo chown app.app -R /python
+set -x
 
-cd /app
+env
+ls -l /app
+ls -l /python
+
+set +x
 
 case "$1" in
     make)
         set -- gosu app "$@"
         ;;
     python|uwsgi)
-        gosu app /python/bin/pip install -r requirements.txt
-        gosu app /python/bin/python setup.py develop
+        if [ -f /requirements.txt ]; then
+        gosu app pip install -r requirements.txt
+        fi
+
+        if [ -f /app/setup.py ]; then
+        gosu app python setup.py develop
+        fi
 
         set -- gosu app "$@"
         ;;
