@@ -12,8 +12,8 @@ case "$1" in
         set -- gosu app "$@"
         ;;
     python|uwsgi)
-        gosu app pip install -r requirements.txt
-        gosu app pip install --no-deps -e .
+        gosu app /python/bin/pip install -r requirements.txt
+        gosu app /python/bin/pip install --no-deps -e .
 
         set -- gosu app "$@"
         ;;
