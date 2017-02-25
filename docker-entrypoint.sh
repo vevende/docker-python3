@@ -2,36 +2,34 @@
 set -eo pipefail
 
 export LC_COLLATE=C
-
 source /python/bin/activate
 
+# Fix permissions if needed.
 find /python /app ! -user app -exec chown app:app {} \;
 
-set -x
+update-python-env() {
+    if [ -f /requirements.txt ]; then
+    gosu app pip install -r /requirements.txt
+    fi
 
-env
-ls -l /app
-ls -l /python
+    if [ -f /app/setup.py ]; then
+    gosu app python /app/setup.py develop
+    fi
+}
 
-set +x
+export -f update-python-env
 
 case "$1" in
-    make)
-        set -- gosu app "$@"
-        ;;
-    python|uwsgi)
-        if [ -f /requirements.txt ]; then
-        gosu app pip install -r requirements.txt
-        fi
+    python|uwsgi|make|-)
+        update-python-env
 
-        if [ -f /app/setup.py ]; then
-        gosu app python setup.py develop
+        # Cleanup shortcut
+        if [ ${1} = '-' ]; then
+            shift
         fi
 
         set -- gosu app "$@"
         ;;
-    *)
-       echo " * Activate the environment by 'source /python/bin/activate'"
 esac
 
 exec "$@"

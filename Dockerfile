@@ -31,10 +31,9 @@ ENV PATH=/python/bin:${PATH} \
     PIP_DISABLE_PIP_VERSION_CHECK=true \
     XDG_CACHE_HOME=/python/cache
 
-COPY docker-entrypoint.sh /sbin/
-
-ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
-
 RUN gosu app pip install --no-cache-dir pip setuptools wheel
+
+COPY docker-entrypoint.sh /sbin/
+ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
 
 CMD ["gosu", "app", "python"]
