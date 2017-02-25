@@ -7,6 +7,9 @@ source /python/bin/activate
 
 echo " * Loaded entrypoint"
 
+sudo chown app.app -R /app
+sudo chown app.app -R /python
+
 case "$1" in
     make)
         set -- gosu app "$@"
