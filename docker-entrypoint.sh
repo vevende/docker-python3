@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-export LC_COLLATE=C
 source /python/bin/activate
 
 # Fix permissions if needed.
@@ -13,7 +12,7 @@ update-python-env() {
     fi
 
     if [ -f /app/setup.py ]; then
-    gosu app python /app/setup.py develop
+    gosu app pip install -e /app
     fi
 }
 

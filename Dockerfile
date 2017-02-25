@@ -25,15 +25,21 @@ RUN set -x \
 
 WORKDIR /app
 
-ENV PATH=/python/bin:${PATH} \
+ENV LANG=C.UTF-8 \
+    LC_COLLATE=C \
+    PATH=/python/bin:${PATH} \
+    XDG_CACHE_HOME=/python/cache \
     PYTHONENV=/python \
     PIP_TIMEOUT=60 \
-    PIP_DISABLE_PIP_VERSION_CHECK=true \
-    XDG_CACHE_HOME=/python/cache
+    PIP_DISABLE_PIP_VERSION_CHECK=true
 
 RUN gosu app pip install --no-cache-dir pip setuptools wheel
 
 COPY docker-entrypoint.sh /sbin/
 ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
 
-CMD ["gosu", "app", "python"]
+ONBUILD COPY requirements.txt /requirements.txt
+ONBUILD RUN set -x \
+    && gosu app pip install --no-cache-dir -r /requirements.txt
+
+CMD ["python"]
