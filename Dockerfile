@@ -23,7 +23,6 @@ RUN set -x \
     && chown app.app -R /python \
     && gosu app python -m venv /python
 
-VOLUME /app /python
 WORKDIR /app
 
 ENV PATH=/python/bin:${PATH} \
