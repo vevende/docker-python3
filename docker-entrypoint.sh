@@ -7,8 +7,8 @@ source /python/bin/activate
 find /python /app ! -user app -exec chown app:app {} \;
 
 update-python-env() {
-    if [ -f /requirements.txt ]; then
-    echo -n "* Installing packages from /requirements.txt"
+    if [ -f /app/requirements.txt ]; then
+    echo -n "* Installing packages from /app/requirements.txt"
     gosu app pip install --quiet -r /requirements.txt
     echo "[Done]"
     fi
@@ -25,7 +25,7 @@ update-python-env() {
 export -f update-python-env
 
 case "$1" in
-    python|uwsgi|make|-)
+    python|uwsgi|-)
         update-python-env
 
         # Cleanup shortcut
