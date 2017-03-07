@@ -24,6 +24,16 @@ update-python-env() {
 
 export -f update-python-env
 
+# Loading optional entrypoints scripts.
+for f in /docker-entrypoint.d/*; do
+    case "$f" in
+        *.sh)     echo "$0: running $f"; . "$f" ;;
+        *.py)     echo "$0: running $f"; python "$f" ;;
+        *)        echo "$0: ignoring $f" ;;
+    esac
+    echo
+done
+
 case "$1" in
     python|uwsgi|-)
         update-python-env
