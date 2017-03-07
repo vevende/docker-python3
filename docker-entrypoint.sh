@@ -26,12 +26,13 @@ update-python-env() {
 run-entrypoints() {
     # Loading optional entrypoints scripts.
     for f in /docker-entrypoint.d/*; do
+        echo -e "\n==== Found $f ====\n"
         case "$f" in
             *.sh)     echo "$0: running $f"; . "$f" ;;
             *.py)     echo "$0: running $f"; python "$f" ;;
             *)        echo "$0: ignoring $f" ;;
         esac
-        echo
+        echo -e "\n==== Finished $f ====\n"
     done
 }
 
