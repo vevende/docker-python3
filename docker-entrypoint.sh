@@ -28,8 +28,8 @@ run-entrypoints() {
     for f in /docker-entrypoint.d/*; do
         echo -e "\n==== Found $f ====\n"
         case "$f" in
-            *.sh)     echo "$0: running $f"; . "$f" ;;
-            *.py)     echo "$0: running $f"; python "$f" ;;
+            *.sh)     echo "$0: running $f"; gosu app bash "$f" ;;
+            *.py)     echo "$0: running $f"; gosu app python "$f" ;;
             *)        echo "$0: ignoring $f" ;;
         esac
         echo -e "\n==== Finished $f ====\n"
