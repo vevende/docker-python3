@@ -1,3 +1,5 @@
 sut:
   build: .
   command: run_tests.sh
+  volumes:
+    - ./run_tests.sh:/sbin/run-tests.sh
