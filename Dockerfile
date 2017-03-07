@@ -7,7 +7,7 @@ ENV LANG=C.UTF-8 \
 RUN set -ex \
     && apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates wget \
-    && rm -rf /var/lib/apt/* \
+    && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/ \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
@@ -30,8 +30,8 @@ RUN set -ex \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
         libjansson-dev libpcre3 libpcre3-dev libssl-dev \
     && apt-get purge -y apt-utils wget \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
-    && rm -rf /usr/share/{man,doc}/ \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/* \
+    && rm -rf /usr/share/{man,doc}/* \
     && rm -rf /var/cache/* \
     && rm -rf /var/log/* \
     && rm -rf /tmp/*
