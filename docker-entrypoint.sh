@@ -52,4 +52,5 @@ case "$1" in
         ;;
 esac
 
+echo "running: $@"
 exec "$@"
