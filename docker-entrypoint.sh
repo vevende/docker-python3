@@ -3,40 +3,44 @@ set -eo pipefail
 
 source /python/bin/activate
 
-# Fix permissions if needed.
+echo -n "* Check folder permissions"
 find /python /app ! -user app -exec chown app:app {} \;
+echo " [Done]"
 
 update-python-env() {
     if [ -f /app/requirements.txt ]; then
-    echo -n "* Installing packages from /app/requirements.txt"
+    echo -n "* Installing packages from /app/requirements.txt ... "
     gosu app pip install --quiet -r /requirements.txt
     echo "[Done]"
     fi
 
     if [ -f /app/setup.py ]; then
-    echo -n "* Installing python package found in /app"
+    echo -n "* Installing python package found in /app ..."
     gosu app pip install --quiet -e /app
     echo "[Done]"
     fi
 
-    echo "Python packages installed: $(pip freeze | wc -l)"
+    echo "* Python packages installed: $(pip freeze | wc -l)"
+}
+
+run-entrypoints() {
+    # Loading optional entrypoints scripts.
+    for f in /docker-entrypoint.d/*; do
+        case "$f" in
+            *.sh)     echo "$0: running $f"; . "$f" ;;
+            *.py)     echo "$0: running $f"; python "$f" ;;
+            *)        echo "$0: ignoring $f" ;;
+        esac
+        echo
+    done
 }
 
 export -f update-python-env
 
-# Loading optional entrypoints scripts.
-for f in /docker-entrypoint.d/*; do
-    case "$f" in
-        *.sh)     echo "$0: running $f"; . "$f" ;;
-        *.py)     echo "$0: running $f"; python "$f" ;;
-        *)        echo "$0: ignoring $f" ;;
-    esac
-    echo
-done
-
 case "$1" in
     python|uwsgi|-)
         update-python-env
+        run-entrypoints
 
         # Cleanup shortcut
         if [ ${1} = '-' ]; then
