@@ -55,5 +55,6 @@ assert test ! -O /bin
 assert test -O /app
 assert test -f /tmp/post-entrypoint.sh.txt
 assert test -f /tmp/pre-entrypoint.sh.txt
+assert test ! -f /tmp/disabled-entrypoint.sh.txt
 
 END_TIME="$(date -u +%s)"
