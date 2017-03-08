@@ -51,10 +51,21 @@ START_TIME="$(date -u +%s)"
 
 assert test $(whoami) = 'app'
 assert test $(which python) = '/python/bin/python'
+assert test $(which pip) = '/python/bin/pip'
+
+# Check for permissions
 assert test ! -O /bin
 assert test -O /app
+assert test -O /python
+
+# Check if the entrypoints are correctly call.
 assert test -f /tmp/post-entrypoint.sh.txt
 assert test -f /tmp/pre-entrypoint.sh.txt
 assert test ! -f /tmp/disabled-entrypoint.sh.txt
+
+# Check installed requirements are the same as the given in /requirements.txt
+pip freeze -r /requirements.txt | grep -v "^#" > /tmp/requirements.txt
+
+assert  diff -ibEZwB /requirements.txt /tmp/requirements.txt
 
 END_TIME="$(date -u +%s)"
