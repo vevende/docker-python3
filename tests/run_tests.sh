@@ -2,11 +2,25 @@
 FAILS=0
 FOUND=0
 
-ERROR='\033[0;31m'
-RESET='\033[0m'
+RED='\e[0;31m'
+GREEN='\e[0;32m'
+YELLOW='\e[1;33m'
+RESET='\e[0m'
 
 function catch {
-    echo -e "\nTotal tests found: ${FOUND}. Fails: ${FAILS}"
+    local PASSES=$(( $FOUND - $FAILS ))
+    local ELAPSED="$(($END_TIME-$START_TIME))"
+
+    echo -e "${YELLOW}==== Completed ====${RESET}\n"
+
+    echo -e "\t${FOUND} tests executed in ${ELAPSED}s"
+    echo -e "\t${PASSES} ✔ passes"
+
+    test ${FAILS} -gt 0 && echo -en "${RED}"
+    echo -e "\t${FAILS} × failures"
+    test ${FAILS} -gt 0 && echo -en "${RESET}"
+
+    echo
 
     if [[ ${FAILS} -gt 0 ]]; then
         exit 1
@@ -14,20 +28,32 @@ function catch {
 }
 
 function assert {
-    let "FOUND+=1"
+    FOUND=$((++FOUND))
+    echo -n "assert $@ ";
 
-    test "$@" && : || local FAIL='FAIL';
-    test ! -z "$FAIL" && let "FAILS+=1"
-    test -z "$FAIL"  && echo -en "PASS" || echo -en "${ERROR}FAIL"
+    "$@"
 
-    echo -e " assert ${@} ${RESET}"
+    local exitcode=$?
+    if [ $exitcode -ne 0 ]; then
+        FAILS=$((++FAILS))
+        echo -e "${RED}FAILED${RESET}"
+    else
+        echo -e "${GREEN}PASS${RESET}"
+    fi
 }
 
 trap catch EXIT
 
-set -eEo errtrace
+echo -e "${YELLOW}==== Starting ====${RESET}"
 
-assert $(whoami) = 'app'
-assert $(which python) = '/python/bin/python'
-assert -O /app
-assert -O /python
+
+START_TIME="$(date -u +%s)"
+
+assert test $(whoami) = 'app'
+assert test $(which python) = '/python/bin/python'
+assert test ! -O /bin
+assert test -O /app
+assert test -f /tmp/post-entrypoint.sh.txt
+assert test -f /tmp/pre-entrypoint.sh.txt
+
+END_TIME="$(date -u +%s)"

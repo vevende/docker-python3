@@ -24,8 +24,10 @@ update-python-env() {
 }
 
 run-entrypoints() {
+    test -z "$1" && exit 1;
+
     # Loading optional entrypoints scripts.
-    for f in /docker-entrypoint.d/*; do
+    for f in $1; do
         echo -e "\n==== Found $f ====\n"
         case "$f" in
             *.sh)     echo "$0: running $f"; gosu app bash "$f" ;;
@@ -38,10 +40,12 @@ run-entrypoints() {
 
 export -f update-python-env
 
+run-entrypoints "/docker-entrypoint.d/pre-*"
+
 case "$1" in
     python|uwsgi|-)
         update-python-env
-        run-entrypoints
+        run-entrypoints "/docker-entrypoint.d/post-*"
 
         # Cleanup shortcut
         if [ ${1} = '-' ]; then
