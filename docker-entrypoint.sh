@@ -28,13 +28,21 @@ run-entrypoints() {
 
     # Loading optional entrypoints scripts.
     for f in $1; do
-        echo -e "\n==== Found $f ====\n"
         case "$f" in
-            *.sh)     echo "$0: running $f"; gosu app bash "$f" ;;
-            *.py)     echo "$0: running $f"; gosu app python "$f" ;;
-            *)        echo "$0: ignoring $f" ;;
+            *.sh)
+                echo "\n==== $0: Running $f \n====\n";
+                gosu app bash "$f" ;
+                echo -e "\n==== Completed $f ====\n"
+                ;;
+
+            *.py)
+                echo "\n==== $0: Running $f \n====\n";
+                gosu app python "$f" ;
+                echo -e "\n==== Completed $f ====\n"
+                ;;
+
+            *) echo "$0: Ignoring $f" ;;
         esac
-        echo -e "\n==== Finished $f ====\n"
     done
 }
 
