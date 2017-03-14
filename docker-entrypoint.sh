@@ -13,13 +13,13 @@ case "$1" in
             case "$f" in
                 *.sh)
                     echo "\n==== $0: Running $f \n====\n";
-                    gosu app bash "$f" ;
+                    bash "$f" ;
                     echo -e "\n==== Completed $f ====\n"
                     ;;
 
                 *.py)
                     echo "\n==== $0: Running $f \n====\n";
-                    gosu app python "$f" ;
+                    python "$f" ;
                     echo -e "\n==== Completed $f ====\n"
                     ;;
 
