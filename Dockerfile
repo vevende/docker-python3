@@ -26,7 +26,7 @@ RUN set -ex \
         python3-dev libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
-        libjansson-dev libpcre2 libpcre2-dev libssl-dev
+        libjansson-dev libpcre3 libpcre3-dev libssl-dev
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
