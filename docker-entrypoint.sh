@@ -6,7 +6,7 @@ source /python/bin/activate
 
 case "$1" in
     run-entrypoints)
-        test -z "$2" && exit 1;
+        test -z "$1" && exit 1;
 
         # Loading optional entrypoints scripts.
         for f in $2; do
