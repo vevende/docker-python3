@@ -12,7 +12,7 @@ case "$1" in
         for f in $2; do
             case "$f" in
                 *.sh)
-                    echo "\n==== $0: Running $f \n====\n";
+                    echo -e "\n==== $0: Running $f ====\n";
                     bash "$f" ;
                     echo -e "\n==== Completed $f ====\n"
                     ;;
@@ -28,6 +28,7 @@ case "$1" in
         done
     ;;
     python|python3|uwsgi|-)
+        "$0" run-entrypoints /docker-entrypoint.d/pre-*
         gosu app "$0" run-entrypoints /docker-entrypoint.d/post-*
 
         # Cleanup shortcut
@@ -36,10 +37,16 @@ case "$1" in
         fi
 
         set -- gosu app "$@"
+
+        echo "running: $@"
+        exec "$@"
         ;;
+    *)
+        "$0" run-entrypoints /docker-entrypoint.d/pre-*
+        gosu app "$0" run-entrypoints /docker-entrypoint.d/post-*
+
+        echo "running: $@"
+        exec "$@"
+    ;;
 esac
 
-"$0" run-entrypoints /docker-entrypoint.d/pre-*
-
-echo "running: $@"
-exec "$@"
