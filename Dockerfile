@@ -6,7 +6,8 @@ ENV LANG=C.UTF-8 \
 
 RUN set -ex \
     && apt-get update \
-    && apt-get install -q -y --no-install-recommends ca-certificates wget \
+    && apt-get install -q -y --no-install-recommends \
+        ca-certificates apt-utils wget openssl iputils-ping git \
     && rm -rf /var/lib/apt/lists/* \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
@@ -20,18 +21,15 @@ RUN set -ex \
 
 RUN set -ex \
     && apt-get update -y \
+    && rm -rf /var/lib/apt/lists/* \
     && apt-get install -q -y --no-install-recommends \
-        apt-utils \
-    && apt-get install -q -y --no-install-recommends \
-        openssl wget ca-certificates \
-        iputils-ping gettext gdal-bin \
-    && apt-get install -q -y --no-install-recommends \
-        build-essential python3-dev libc6-dev zlib1g-dev musl-dev \
+        build-essential gettext gdal-bin \
+        python3-dev libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
-        libjansson-dev libpcre3 libpcre3-dev libssl-dev \
-    && apt-get purge -y apt-utils wget  \
-    && rm -rf /var/lib/apt/lists/*
+        libjansson-dev libpcre3 libpcre3-dev libssl-dev
+
+WORKDIR /app
 
 RUN set -x \
     && useradd --uid 1000 --user-group app \
@@ -41,20 +39,16 @@ RUN set -x \
     && chown app.app -R /python \
     && gosu app python -m venv /python
 
-WORKDIR /app
-
 ENV PATH=/python/bin:${PATH} \
     XDG_CACHE_HOME=/python/cache \
     PYTHONENV=/python \
     PIP_TIMEOUT=60 \
     PIP_DISABLE_PIP_VERSION_CHECK=true
 
-RUN set -ex && gosu app pip install --no-cache-dir pip setuptools wheel
+RUN set -ex \
+    && gosu app pip install --no-cache-dir pip setuptools wheel
 
 COPY docker-entrypoint.sh /sbin/
 ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
-
-ONBUILD COPY requirements.txt /requirements.txt
-ONBUILD RUN set -x && gosu app pip install --no-cache-dir -r /requirements.txt
 
 CMD ["python"]

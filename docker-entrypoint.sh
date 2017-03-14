@@ -24,10 +24,10 @@ update-python-env() {
 }
 
 run-entrypoints() {
-    test -z "$1" && exit 1;
+    test -z "$@" && exit 1;
 
     # Loading optional entrypoints scripts.
-    for f in $1; do
+    for f in "$@"; do
         case "$f" in
             *.sh)
                 echo "\n==== $0: Running $f \n====\n";
@@ -48,12 +48,12 @@ run-entrypoints() {
 
 export -f update-python-env
 
-run-entrypoints "/docker-entrypoint.d/pre-*"
+run-entrypoints /docker-entrypoint.d/pre-*
 
 case "$1" in
     python|uwsgi|-)
         update-python-env
-        run-entrypoints "/docker-entrypoint.d/post-*"
+        run-entrypoints /docker-entrypoint.d/post-*
 
         # Cleanup shortcut
         if [ ${1} = '-' ]; then
