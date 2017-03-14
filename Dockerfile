@@ -23,7 +23,7 @@ RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
         build-essential gettext gdal-bin \
-        python3-dev libc6-dev zlib1g-dev musl-dev \
+        libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
         libjansson-dev libpcre3 libpcre3-dev libssl-dev \
