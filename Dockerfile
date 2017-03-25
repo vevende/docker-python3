@@ -6,8 +6,7 @@ ENV LANG=C.UTF-8 \
 
 RUN set -ex \
     && apt-get update \
-    && apt-get install -q -y --no-install-recommends \
-        ca-certificates apt-utils wget openssl iputils-ping git \
+    && apt-get install -q -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
@@ -22,11 +21,14 @@ RUN set -ex \
 RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
+        wget openssl iputils-ping git \
         build-essential gettext gdal-bin \
         libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
         libjansson-dev libpcre3 libpcre3-dev libssl-dev \
+    && rm -rf /usr/share/man/* \
+    && rm -rf /usr/share/doc/* \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
