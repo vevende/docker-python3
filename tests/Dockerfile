@@ -9,6 +9,6 @@ COPY entrypoint-touchfile.py /docker-entrypoint.d/entrypoint1.py
 COPY entrypoint-touchfile.py /docker-entrypoint.d/entrypoint2.py
 COPY entrypoint-touchfile.sh /docker-entrypoint.d/disabled-entrypoint
 
-RUN gosu app pip install -r --no-cache-dir /requirements.txt
+RUN gosu app pip install --no-cache-dir -r /requirements.txt
 
 CMD ["-", "run_tests.sh"]
