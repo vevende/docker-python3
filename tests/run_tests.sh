@@ -59,8 +59,10 @@ assert test -O /app
 assert test -O /python
 
 # Check if the entrypoints are correctly call.
-assert test -f /tmp/entrypoint.sh.txt
-assert test -f /tmp/entrypoint.py.txt
+assert test -f /tmp/entrypoint1.sh.txt
+assert test -f /tmp/entrypoint2.sh.txt
+assert test -f /tmp/entrypoint1.py.txt
+assert test -f /tmp/entrypoint2.py.txt
 assert test ! -f /tmp/disabled-entrypoint.txt
 
 # Check installed requirements are the same as the given in /requirements.txt
