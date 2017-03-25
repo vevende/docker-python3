@@ -6,7 +6,7 @@ for f in /docker-entrypoint.d/*; do
     case "$f" in
         *.sh)
             echo "$0: running $@"
-            . "$f";
+            bash "$f";
             echo "$0: completed $@" ;;
         *.py)
             echo "$0: running: $@";

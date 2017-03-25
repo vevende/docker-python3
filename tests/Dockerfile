@@ -1,8 +1,8 @@
 FROM vevende/python3:latest
 
 COPY requirements.txt /requirements.txt
-
 COPY run_tests.sh /usr/local/bin/run_tests.sh
+
 COPY entrypoint-touchfile.sh /docker-entrypoint.d/entrypoint1.sh
 COPY entrypoint-touchfile.sh /docker-entrypoint.d/entrypoint2.sh
 COPY entrypoint-touchfile.py /docker-entrypoint.d/entrypoint1.py
