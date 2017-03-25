@@ -2,35 +2,22 @@
 set -eo pipefail
 shopt -s nullglob
 
-source /python/bin/activate
+for f in /docker-entrypoint.d/*; do
+    case "$f" in
+        *.sh)
+            echo "$0: running $@"
+            . "$f";
+            echo "$0: completed $@" ;;
+        *.py)
+            echo "$0: running: $@";
+            gosu app python "$f";
+            echo "$0: completed $@" ;;
+        *) echo "$0: ignoring $f" ;;
+    esac
+done
 
 case "$1" in
-    run-entrypoints)
-        test -z "$1" && exit 1;
-
-        # Loading optional entrypoints scripts.
-        for f in $2; do
-            case "$f" in
-                *.sh)
-                    echo -e "\n==== $0: Running $f ====\n";
-                    bash "$f" ;
-                    echo -e "\n==== Completed $f ====\n"
-                    ;;
-
-                *.py)
-                    echo "\n==== $0: Running $f \n====\n";
-                    python "$f" ;
-                    echo -e "\n==== Completed $f ====\n"
-                    ;;
-
-                *) echo "$0: Ignoring $f" ;;
-            esac
-        done
-    ;;
-    python|python3|uwsgi|-)
-        "$0" run-entrypoints /docker-entrypoint.d/pre-*
-        gosu app "$0" run-entrypoints /docker-entrypoint.d/post-*
-
+    python|pip|uwsgi|-)
         # Cleanup shortcut
         if [ ${1} = '-' ]; then
             shift
@@ -38,15 +25,9 @@ case "$1" in
 
         set -- gosu app "$@"
 
-        echo "running: $@"
-        exec "$@"
         ;;
-    *)
-        "$0" run-entrypoints /docker-entrypoint.d/pre-*
-        gosu app "$0" run-entrypoints /docker-entrypoint.d/post-*
-
-        echo "running: $@"
-        exec "$@"
-    ;;
 esac
 
+
+echo "running: $@"
+exec "$@"
