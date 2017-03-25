@@ -16,12 +16,12 @@ RUN set -ex \
     && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
     && gosu nobody true \
-    && apt-get purge -y wget
+    && apt-get purge -y wget ca-certificates
 
 RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
-        openssl iputils-ping git \
+        ca-certificates openssl iputils-ping git \
         build-essential gettext gdal-bin \
         libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
@@ -30,8 +30,6 @@ RUN set -ex \
     && rm -rf /usr/share/man/* \
     && rm -rf /usr/share/doc/* \
     && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
 
 RUN set -x \
     && useradd --uid 1000 --user-group app \
@@ -52,5 +50,6 @@ RUN set -ex \
 
 COPY docker-entrypoint.sh /sbin/
 ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
+WORKDIR /app
 
 CMD ["python"]
