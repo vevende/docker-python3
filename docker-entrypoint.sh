@@ -5,13 +5,13 @@ shopt -s nullglob
 for f in /docker-entrypoint.d/*; do
     case "$f" in
         *.sh)
-            echo "$0: running $@"
+            echo "$0: running $f";
             bash "$f";
-            echo "$0: completed $@" ;;
+            echo "$0: completed $f" ;;
         *.py)
-            echo "$0: running: $@";
+            echo "$0: running: $f";
             gosu app python "$f";
-            echo "$0: completed $@" ;;
+            echo "$0: completed $f" ;;
         *) echo "$0: ignoring $f" ;;
     esac
 done
