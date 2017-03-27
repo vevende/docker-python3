@@ -37,16 +37,14 @@ RUN set -x \
     && mkdir -p /python \
     && chown app.app -R /app \
     && chown app.app -R /python \
-    && gosu app python -m venv /python
+    && gosu app python -m venv /python \
+    && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
 
 ENV PATH=/python/bin:${PATH} \
     XDG_CACHE_HOME=/python/cache \
     PYTHONENV=/python \
     PIP_TIMEOUT=60 \
     PIP_DISABLE_PIP_VERSION_CHECK=true
-
-RUN set -ex \
-    && gosu app pip install --no-cache-dir pip setuptools wheel
 
 COPY docker-entrypoint.sh /sbin/
 ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
