@@ -14,7 +14,7 @@ RUN set -ex \
     && mkdir -p /python \
     && chown app.app -R /app \
     && chown app.app -R /python \
-    && ln -s /usr/bin/easy_install-3.6 /usr/bin/easy_install } \
+    && ln -s /usr/bin/easy_install-3.6 /usr/bin/easy_install \
     && ln -s /usr/bin/idle3 /usr/bin/idle \
     && ln -s /usr/bin/pydoc3 /usr/bin/pydoc \
     && ln -s /usr/bin/python3 /usr/bin/python \
