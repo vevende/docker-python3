@@ -1,10 +1,11 @@
-FROM python:3-alpine
+FROM alpine:edge
+
+ENV LANG C.UTF-8
 
 RUN set -ex \
-    && sed -i -e 's/v3\.\d/edge/g' /etc/apk/repositories \
     && $( echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
     && apk --update add --no-cache \
-        build-base musl-dev postgresql-dev \
+        build-base python3 python3-dev musl-dev postgresql-dev \
         gosu@testing wget ca-certificates gettext git \
         libxml2-dev libxslt-dev jansson-dev readline-dev ncurses-dev \
         libpng-dev zlib-dev jpeg-dev freetype-dev libffi-dev \
@@ -15,6 +16,12 @@ RUN set -ex \
     && chown app.app -R /python \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
+    && cd /usr/local/bin \
+    && { [ -e easy_install ] || ln -s easy_install-* easy_install; } \
+    && ln -s idle3 idle \
+    && ln -s pydoc3 pydoc \
+    && ln -s python3 python \
+    && ln -s python3-config python-config
 
 ENV PATH="/python/bin:${PATH}" \
     DEBIAN_FRONTEND=noninteractive \
