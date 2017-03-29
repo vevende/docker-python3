@@ -22,7 +22,7 @@ RUN set -ex \
         libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
         libjansson-dev libpcre3 libpcre3-dev libssl-dev \
-    && rm -rf /var/cache/* \
+    && rm -rf /var/cache/apt/* \
     && rm -rf /usr/share/man/* \
     && rm -rf /usr/share/doc/* \
     && rm -rf /var/lib/apt/lists/* \
