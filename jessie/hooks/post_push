@@ -1,7 +1,6 @@
 #!/bin/bash
-set -e
-
 echo "===> Tagging as default"
+set -ex
 
 docker tag $IMAGE_NAME $DOCKER_REPO:latest
 docker push $DOCKER_REPO:latest

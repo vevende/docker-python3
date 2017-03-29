@@ -1,7 +1,6 @@
 #!/bin/bash
-set -ex
-
 echo "===> Install tests"
+set -ex
 
 cp -a ../docker-compose.test.yml .
 cp -ar ../tests/ .
