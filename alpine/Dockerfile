@@ -8,7 +8,7 @@ RUN set -ex \
         gosu@testing wget ca-certificates gettext git \
         libxml2-dev libxslt-dev jansson-dev readline-dev ncurses-dev \
         libpng-dev zlib-dev jpeg-dev freetype-dev libffi-dev \
-    && useradd -u 1000 app \
+    && adduser -D  -u 1000 app \
     && mkdir -p /app \
     && mkdir -p /python \
     && chown app.app -R /app \
