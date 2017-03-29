@@ -1,4 +1,5 @@
 #!/bin/sh
+TERM=xterm-256color
 FAILS=0
 FOUND=0
 
@@ -45,7 +46,6 @@ assert() {
 trap catch EXIT
 
 echo -e "${YELLOW}==== Starting ====${RESET}"
-
 
 START_TIME="$(date -u +%s)"
 

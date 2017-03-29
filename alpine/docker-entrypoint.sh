@@ -2,7 +2,7 @@
 set -eo pipefail
 
 for f in /docker-entrypoint.d/*; do
-    if [ ! -f $1 ]; then
+    if [ ! -f "$f" ]; then
         continue
     fi
 
