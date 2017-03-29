@@ -14,14 +14,13 @@ RUN set -ex \
     && mkdir -p /python \
     && chown app.app -R /app \
     && chown app.app -R /python \
+    && ln -s /usr/bin/easy_install-3.6 /usr/bin/easy_install } \
+    && ln -s /usr/bin/idle3 /usr/bin/idle \
+    && ln -s /usr/bin/pydoc3 /usr/bin/pydoc \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && ln -s /usr/bin/python3-config /usr/bin/python-config \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
-    && cd /usr/local/bin \
-    && { [ -e easy_install ] || ln -s easy_install-* easy_install; } \
-    && ln -s idle3 idle \
-    && ln -s pydoc3 pydoc \
-    && ln -s python3 python \
-    && ln -s python3-config python-config
 
 ENV PATH="/python/bin:${PATH}" \
     DEBIAN_FRONTEND=noninteractive \
