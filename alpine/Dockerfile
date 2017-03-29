@@ -2,7 +2,7 @@ FROM python:3-alpine
 
 RUN set -ex \
     && sed -i -e 's/v3\.\d/edge/g' /etc/apk/repositories \
-    && $( echo "testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
+    && $( echo "testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
     && apk --update add --no-cache \
         build-base python-dev musl-dev postgresql-dev \
         gosu@testing wget ca-certificates gettext git \
