@@ -5,4 +5,4 @@ echo "===> Install tests"
 
 cp -ar ../docker-compose.test.yml .
 cp -ar ../tests/ .
-sed -i "1s/^FROM.*/FROM ${IMAGE_NAME}/" tests/Dockerfile
+sed -i "s/^FROM.*/FROM ${IMAGE_NAME}/" tests/Dockerfile
