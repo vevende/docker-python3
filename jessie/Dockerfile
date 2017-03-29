@@ -1,6 +1,5 @@
 FROM python:3.6-slim
 
-
 RUN set -ex \
     && apt-get update \
     && apt-get install -q -y --no-install-recommends wget ca-certificates \
@@ -34,7 +33,7 @@ RUN set -ex \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
 
-ENV LANG=C \
+ENV LANG="C.UTF-8" \
     LC_COLLATE=C \
     DEBIAN_FRONTEND=noninteractive \
     TERM="xterm-256color" \
