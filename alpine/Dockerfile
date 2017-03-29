@@ -4,7 +4,7 @@ RUN set -ex \
     && sed -i -e 's/v3\.\d/edge/g' /etc/apk/repositories \
     && $( echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
     && apk --update add --no-cache \
-        build-base python3-dev musl-dev postgresql-dev \
+        build-base musl-dev postgresql-dev \
         gosu@testing wget ca-certificates gettext git \
         libxml2-dev libxslt-dev jansson-dev readline-dev ncurses-dev \
         libpng-dev zlib-dev jpeg-dev freetype-dev libffi-dev \
