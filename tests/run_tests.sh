@@ -1,5 +1,4 @@
 #!/bin/sh
-TERM=xterm-256color
 FAILS=0
 FOUND=0
 

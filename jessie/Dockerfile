@@ -37,6 +37,7 @@ RUN set -ex \
 ENV LANG=C \
     LC_COLLATE=C \
     DEBIAN_FRONTEND=noninteractive \
+    TERM="xterm-256color" \
     PATH="/python/bin:${PATH}" \
     XDG_CACHE_HOME="/python/cache" \
     PYTHONENV="/python" \

@@ -23,7 +23,7 @@ RUN set -ex \
     && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
 
 ENV PATH="/python/bin:${PATH}" \
-    DEBIAN_FRONTEND=noninteractive \
+    TERM="xterm-256color" \
     XDG_CACHE_HOME="/python/cache" \
     PYTHONENV="/python" \
     PYTHONBUFFERED=1 \
