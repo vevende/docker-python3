@@ -2,9 +2,10 @@ FROM python:3-alpine
 
 RUN set -ex \
     && sed -i -e 's/v3\.\d/edge/g' /etc/apk/repositories \
+    && echo "testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     && apk --update add --no-cache \
-        build-base python-dev musl-dev postgresql-dev openssl ca-certificates \
-        gosu wget gettext git readline-dev ncurses-dev \
+        build-base python-dev musl-dev postgresql-dev ca-certificates \
+        gosu@testing wget gettext git readline-dev ncurses-dev \
         libxml2-dev libxslt-dev jansson-dev openssl-dev \
         libpng-dev zlib-dev jpeg-dev freetype-dev libffi-dev \
     && useradd -u 1000 app \
