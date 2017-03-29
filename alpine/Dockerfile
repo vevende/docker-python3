@@ -16,10 +16,10 @@ RUN set -ex \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
 
-ENV PATH=/python/bin:${PATH} \
+ENV PATH="/python/bin:${PATH}" \
     DEBIAN_FRONTEND=noninteractive \
-    XDG_CACHE_HOME=/python/cache \
-    PYTHONENV=/python \
+    XDG_CACHE_HOME="/python/cache" \
+    PYTHONENV="/python" \
     PYTHONBUFFERED=1 \
     PYTHONHASHSEED=random \
     PIP_TIMEOUT=60 \
