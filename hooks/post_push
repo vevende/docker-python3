@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+echo "=> post_push => Tagging default"
+
+if [ "$DOCKER_TAG" = 'jessie' ]; then
+    echo docker tag $IMAGE_NAME $DOCKER_REPO:latest
+    echo docker push $DOCKER_REPO:latest
+fi

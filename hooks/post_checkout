@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+echo "=> post_checkout => Select image to test"
+
+echo cp -ar docker-compose.test.yml ${DOCKER_TAG}
+echo cp -ar tests/ ${DOCKER_TAG}
+echo sed -e "1s/FROM.+/FROM ${IMAGE_NAME}\n/" tests/Dockerfile
