@@ -3,6 +3,6 @@ set -ex
 
 echo "===> Install tests"
 
-cp -ar ../docker-compose.test.yml .
+cp -a ../docker-compose.test.yml .
 cp -ar ../tests/ .
 sed -i "s/^FROM.*/FROM vevende\/python3:jessie/" tests/Dockerfile
