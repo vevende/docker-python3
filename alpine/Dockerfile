@@ -5,8 +5,8 @@ ENV LANG C.UTF-8
 RUN set -ex \
     && $( echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
     && apk --update add --no-cache \
-        build-base python3 python3-dev musl-dev postgresql-dev \
-        gosu@testing wget ca-certificates gettext git \
+        build-base python3 python3-dev musl-dev linux-headers postgresql-dev \
+        gosu@testing wget ca-certificates gettext \
         libxml2-dev libxslt-dev jansson-dev readline-dev ncurses-dev \
         libpng-dev zlib-dev jpeg-dev freetype-dev libffi-dev \
     && adduser -D  -u 1000 app \
