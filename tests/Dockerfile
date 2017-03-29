@@ -1,7 +1,7 @@
 FROM vevende/python3:latest
 
 COPY requirements.txt /requirements.txt
-COPY run_tests.sh /usr/bin/run_tests.sh
+COPY run_tests.sh /run_tests.sh
 
 COPY entrypoint-touchfile.sh /docker-entrypoint.d/entrypoint1.sh
 COPY entrypoint-touchfile.sh /docker-entrypoint.d/entrypoint2.sh
@@ -11,4 +11,4 @@ COPY entrypoint-touchfile.sh /docker-entrypoint.d/disabled-entrypoint
 
 RUN gosu app pip install --no-cache-dir -r /requirements.txt
 
-CMD ["-", "run_tests.sh"]
+CMD ["gosu", "app", "/run_tests.sh"]

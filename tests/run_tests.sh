@@ -7,7 +7,7 @@ GREEN='\e[0;32m'
 YELLOW='\e[1;33m'
 RESET='\e[0m'
 
-function catch {
+catch() {
     local PASSES=$(( $FOUND - $FAILS ))
     local ELAPSED="$(($END_TIME-$START_TIME))"
 
@@ -27,7 +27,7 @@ function catch {
     fi
 }
 
-function assert {
+assert() {
     FOUND=$((++FOUND))
     echo -n "assert $@ ";
 
@@ -68,6 +68,6 @@ assert test ! -f /tmp/disabled-entrypoint.txt
 # Check installed requirements are the same as the given in /requirements.txt
 pip freeze -r /requirements.txt | grep -v "^#" > /tmp/requirements.txt
 
-assert  diff -ibEZwB /requirements.txt /tmp/requirements.txt
+assert  diff -ibEwB /requirements.txt /tmp/requirements.txt
 
 END_TIME="$(date -u +%s)"
