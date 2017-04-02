@@ -26,11 +26,6 @@ case "$1" in
             shift
         fi
 
-        # Protects uwsgi to accidentally creates zombie processes
-        if [ ${1} = 'uwsgi' ]; then
-            set -- tini -- "$@"
-        fi
-
         set -- gosu app "$@"
 
         ;;

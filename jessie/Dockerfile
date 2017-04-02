@@ -45,7 +45,7 @@ ENV LANG="C.UTF-8" \
     PIP_DISABLE_PIP_VERSION_CHECK=true
 
 COPY docker-entrypoint.sh /sbin/
-ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
+ENTRYPOINT ["tini", "--", "/sbin/docker-entrypoint.sh"]
 WORKDIR /app
 
 CMD ["python"]
