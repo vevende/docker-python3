@@ -51,6 +51,7 @@ START_TIME="$(date -u +%s)"
 assert test $(whoami) = 'app'
 assert test $(which python) = '/python/bin/python'
 assert test $(which pip) = '/python/bin/pip'
+assert test which uwsgi
 
 # Check for permissions
 assert test ! -O /bin

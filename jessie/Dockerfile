@@ -16,11 +16,10 @@ RUN set -ex \
 RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
-        git gcc make gettext gdal-bin \
+        git gcc make gettext uwsgi uwsgi-plugin-python3 gdal-bin \
         libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
-        libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
-        libjansson-dev libpcre3 libpcre3-dev libssl-dev \
+        libpng-dev libfreetype6-dev libjpeg-dev libffi-dev
     && rm -rf /var/cache/apt/* \
     && rm -rf /usr/share/man/* \
     && rm -rf /usr/share/doc/* \
