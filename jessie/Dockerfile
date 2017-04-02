@@ -19,7 +19,7 @@ RUN set -ex \
         git gcc make gettext uwsgi uwsgi-plugin-python3 gdal-bin \
         libc6-dev zlib1g-dev musl-dev \
         libpq-dev libxml2-dev libxslt1-dev \
-        libpng-dev libfreetype6-dev libjpeg-dev libffi-dev
+        libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
     && rm -rf /var/cache/apt/* \
     && rm -rf /usr/share/man/* \
     && rm -rf /usr/share/doc/* \
