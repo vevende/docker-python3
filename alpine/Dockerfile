@@ -29,7 +29,8 @@ ENV PATH="/python/bin:${PATH}" \
     PYTHONBUFFERED=1 \
     PYTHONHASHSEED=random \
     PIP_TIMEOUT=60 \
-    PIP_DISABLE_PIP_VERSION_CHECK=true
+    PIP_DISABLE_PIP_VERSION_CHECK=true \
+    PS1="\\u@\\H:\\w \\$ "
 
 COPY docker-entrypoint.sh /sbin/
 ENTRYPOINT ["tini", "--", "/sbin/docker-entrypoint.sh"]

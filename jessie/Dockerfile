@@ -21,7 +21,7 @@ RUN set -ex \
     && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
     && rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini \
-    && tini -vvv -- bash -c "true & true"
+    && tini -vvv -- bash -c 'true'
 
 RUN set -ex \
     && apt-get update -y \
