@@ -6,8 +6,8 @@ RUN set -ex \
     && $( echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories ) \
     && apk --update add --no-cache \
         gosu@testing tini build-base python3 python3-dev \
-        musl-dev linux-headers postgresql-dev \
-        wget ca-certificates gettext uwsgi uwsgi-python3 libxml2-dev libxslt-dev \
+        musl-dev linux-headers postgresql-dev zlib-dev \
+        ca-certificates gettext libxml2-dev libxslt-dev \
         libpng-dev jpeg-dev freetype-dev libffi-dev \
     && adduser -D  -u 1000 app \
     && mkdir -p /app \
@@ -20,7 +20,12 @@ RUN set -ex \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && ln -s /usr/bin/python3-config /usr/bin/python-config \
     && gosu app python -m venv /python \
-    && gosu app /python/bin/pip install --no-cache-dir pip setuptools wheel
+    && gosu app /python/bin/pip install --no-cache-dir pip setuptools \
+    && apk add --no-cache --virtual .uwsgi-deps \
+        libcap-dev attr-dev curl-dev jansson-dev libcap-dev pcre-dev \
+    && gosu app /python/bin/pip install --no-cache-dir uwsgi \
+    && apk del .uwsgi-deps
+
 
 ENV PATH="/python/bin:${PATH}" \
     TERM="xterm-256color" \
