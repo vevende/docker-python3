@@ -2,3 +2,4 @@ Pillow==4.0.0
 psycopg2==2.7
 pycrypto==2.6.1
 olefile==0.44
+uWSGI==2.0.15
