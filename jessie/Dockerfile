@@ -41,7 +41,7 @@ RUN set -ex \
     && chown app.app -R /python \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel \
-    && gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.15 \
+    && gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.15
 
 ENV LANG="C.UTF-8" \
     LC_COLLATE=C \
