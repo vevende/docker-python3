@@ -21,7 +21,8 @@ RUN set -ex \
     && ln -s /usr/bin/python3-config /usr/bin/python-config \
     && gosu app python -m venv /python \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools \
-    && apk add --no-cache libcap libattr libcurl jansson libcap pcre libpcrecpp libssh2 \
+    && apk add --no-cache \
+        libcap libattr libcurl jansson libcap pcre libpcrecpp libssh2 libpcre16 libpcre32 \
     && apk add --no-cache --virtual .uwsgi-deps \
         libcap-dev attr-dev curl-dev jansson-dev libcap-dev pcre-dev \
     && gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.15 \
