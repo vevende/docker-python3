@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eo pipefail
+set -e
 
 for f in /docker-entrypoint.d/*; do
     if [ ! -f "$f" ]; then
