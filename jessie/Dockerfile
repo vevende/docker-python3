@@ -4,21 +4,30 @@ RUN set -ex \
     && apt-get update \
     && apt-get install -q -y --no-install-recommends wget ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
-    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture)" \
-    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture).asc" \
+    && wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture)" \
+    && wget -q -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture).asc" \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
     && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
-    && gosu nobody true
+    && gosu nobody:root bash -c 'whoami && id'
+
+RUN set -ex \
+    && wget -q -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/download/v0.14.0/tini-$(dpkg --print-architecture)" \
+    && wget -q -O /usr/local/bin/tini.asc "https://github.com/krallin/tini/releases/download/v0.14.0/tini-$(dpkg --print-architecture).asc" \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
+    && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
+    && rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
+    && chmod +x /usr/local/bin/tini \
+    && tini -vvv -- bash -c "true & true"
 
 RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
         git gcc make gettext uwsgi uwsgi-plugin-python3 gdal-bin \
-        libc6-dev zlib1g-dev musl-dev \
-        libpq-dev libxml2-dev libxslt1-dev \
+        libc6-dev zlib1g-dev musl-dev libpq-dev libxml2-dev libxslt1-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
     && rm -rf /var/cache/apt/* \
     && rm -rf /usr/share/man/* \
