@@ -65,9 +65,6 @@ assert test -f /tmp/entrypoint1.py.txt
 assert test -f /tmp/entrypoint2.py.txt
 assert test ! -f /tmp/disabled-entrypoint.txt
 
-# Check installed requirements are the same as the given in /requirements.txt
-pip freeze -r /requirements.txt | grep -v "^#" > /tmp/requirements.txt
-
-assert  diff -ibEwB /requirements.txt /tmp/requirements.txt
+pip freeze -r /requirements.txt
 
 END_TIME="$(date -u +%s)"
