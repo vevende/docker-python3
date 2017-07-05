@@ -45,7 +45,8 @@ RUN set -ex \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade wheel \
     && UWSGI_PROFILE=/usr/share/docker-python3/uwsgi-profile.ini \
-       gosu app /python/bin/pip install --no-cache-dir --upgrade -vv uwsgi
+       gosu app /python/bin/pip install --no-cache-dir --upgrade -vv uwsgi \
+    && cp -a /python/bin/uwsgi /usr/local/bin/uwsgi
 
 
 ENV LANG="C.UTF-8" \
