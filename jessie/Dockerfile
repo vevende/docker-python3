@@ -28,7 +28,7 @@ COPY conf /usr/share/docker-python3
 RUN set -ex \
     && apt-get update -y \
     && apt-get install -q -y --no-install-recommends \
-        git gcc make gettext gdal-bin \
+        git gcc make gettext gdal-bin libcurl4-openssl-dev \
         libc6-dev zlib1g-dev musl-dev libpq-dev libexpat1-dev \
         libxml2-dev libxslt1-dev libjansson-dev libpcre3-dev \
         libpng-dev libfreetype6-dev libjpeg-dev libffi-dev \
@@ -45,7 +45,8 @@ RUN set -ex \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools \
     && gosu app /python/bin/pip install --no-cache-dir --upgrade wheel \
     && UWSGI_PROFILE=/usr/share/docker-python3/uwsgi-profile.ini \
-       gosu app /python/bin/pip install --no-cache-dir --upgrade uwsgi
+       gosu app /python/bin/pip install --no-cache-dir --upgrade -vv uwsgi
+
 
 ENV LANG="C.UTF-8" \
     LC_COLLATE=C \
