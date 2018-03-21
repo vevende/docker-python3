@@ -61,7 +61,7 @@ RUN set -ex \
         libpng-dev \
         libfreetype6-dev \
         libjpeg-dev \
-        libffi-dev \
+        libffi-dev; \
     rm -rf /var/cache/apt/*; \
     rm -rf /usr/share/man/*; \
     rm -rf /usr/share/doc/*; \
