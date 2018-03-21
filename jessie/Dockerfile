@@ -30,7 +30,11 @@ RUN set -ex; \
     \
 # verify that the binary works
     gosu nobody true; \
-    apt-get purge -y --auto-remove $fetchDeps
+    apt-get purge -y --auto-remove $fetchDeps \
+    rm -rf /var/cache/apt/*; \
+    rm -rf /usr/share/man/*; \
+    rm -rf /usr/share/doc/*; \
+    rm -rf /var/lib/apt/lists/*;
 
 RUN set -ex; \
     fetchDeps='ca-certificates wget'; \
@@ -47,7 +51,11 @@ RUN set -ex; \
     chmod +x /usr/local/bin/tini; \
 # verify that the binary works
     tini -vvv -- bash -c 'true'; \
-    apt-get purge -y --auto-remove $fetchDeps
+    apt-get purge -y --auto-remove $fetchDeps \
+    rm -rf /var/cache/apt/*; \
+    rm -rf /usr/share/man/*; \
+    rm -rf /usr/share/doc/*; \
+    rm -rf /var/lib/apt/lists/*;
 
 # Install system libraries
 RUN set -ex \
@@ -73,12 +81,22 @@ RUN set -ex \
 
 # Setup non-root user
 RUN set -ex \
-    useradd --uid 1000 --user-group --system app ; \
-    mkdir -p /app /python; \
-    chown app:app -R /app /python; \
-    gosu app python -m venv /python; \
-    gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel; \
-    gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.17;
+    && addgroup --gid 1000 app \
+    && adduser --uid 1000 \
+        --gid 1000 \
+        --no-create-home \
+        --disabled-password --quiet app
+
+# Setup non-root user
+RUN set -ex \
+    && gosu app ls -al \
+    && mkdir -p /app \
+    && mkdir -p /python \
+    && chown -R app /app \
+    && chown -R app /python \
+    && gosu app python -m venv /python \
+    && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.17
 
 ENV PATH="/python/bin:${PATH}" \
     XDG_CACHE_HOME="/python/cache" \
