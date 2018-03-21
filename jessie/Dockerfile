@@ -33,6 +33,9 @@ RUN set -ex; \
     apt-get purge -y --auto-remove $fetchDeps
 
 RUN set -ex \
+    fetchDeps='ca-certificates wget'; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends $fetchDeps; \
     wget -q -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/download/v$TINY_VERSION/tini-$(dpkg --print-architecture)"; \
     wget -q -O /usr/local/bin/tini.asc "https://github.com/krallin/tini/releases/download/v$TINY_VERSION/tini-$(dpkg --print-architecture).asc"; \
 # verify the signature
@@ -43,7 +46,8 @@ RUN set -ex \
     \
     chmod +x /usr/local/bin/tini; \
 # verify that the binary works
-    tini -vvv -- bash -c 'true';
+    tini -vvv -- bash -c 'true'; \
+    apt-get purge -y --auto-remove $fetchDeps
 
 # Install system libraries
 RUN set -ex \
