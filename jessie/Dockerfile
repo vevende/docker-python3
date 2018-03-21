@@ -54,7 +54,7 @@ RUN set -ex \
         zlib1g-dev \
         libc6-dev \
         libpq-dev \
-        libxml2-dev
+        libxml2-dev \
         libxslt1-dev \
         libjansson-dev \
         libpcre3-dev \
