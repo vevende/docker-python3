@@ -95,8 +95,7 @@ RUN set -ex \
     && chown -R app /app \
     && chown -R app /python \
     && gosu app python -m venv /python \
-    && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel \
-    && gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.17
+    && gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel
 
 ENV PATH="/python/bin:${PATH}" \
     XDG_CACHE_HOME="/python/cache" \
