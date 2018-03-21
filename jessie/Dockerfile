@@ -58,9 +58,9 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*;
 
 # Install system libraries
-RUN set -ex \
-    apt-get update -y; \
-    apt-get install -q -y --no-install-recommends \
+RUN set -ex; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
         git gcc make gettext gdal-bin tzdata \
         musl-dev \
         zlib1g-dev \
