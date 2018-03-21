@@ -30,7 +30,7 @@ RUN set -ex; \
     \
 # verify that the binary works
     gosu nobody true; \
-    apt-get purge -y --auto-remove $fetchDeps \
+    apt-get purge -y --auto-remove $fetchDeps; \
     rm -rf /var/cache/apt/*; \
     rm -rf /usr/share/man/*; \
     rm -rf /usr/share/doc/*; \
@@ -51,7 +51,7 @@ RUN set -ex; \
     chmod +x /usr/local/bin/tini; \
 # verify that the binary works
     tini -vvv -- bash -c 'true'; \
-    apt-get purge -y --auto-remove $fetchDeps \
+    apt-get purge -y --auto-remove $fetchDeps; \
     rm -rf /var/cache/apt/*; \
     rm -rf /usr/share/man/*; \
     rm -rf /usr/share/doc/*; \
