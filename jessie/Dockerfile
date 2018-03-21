@@ -32,7 +32,7 @@ RUN set -ex; \
     gosu nobody true; \
     apt-get purge -y --auto-remove $fetchDeps
 
-RUN set -ex \
+RUN set -ex; \
     fetchDeps='ca-certificates wget'; \
     apt-get update; \
     apt-get install -y --no-install-recommends $fetchDeps; \
