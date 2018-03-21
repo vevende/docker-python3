@@ -75,7 +75,7 @@ RUN set -ex \
 RUN set -ex \
     useradd --uid 1000 --user-group --system app ; \
     mkdir -p /app /python; \
-    chown app.app -R /app /python; \
+    chown app:app -R /app /python; \
     gosu app python -m venv /python; \
     gosu app /python/bin/pip install --no-cache-dir --upgrade pip setuptools wheel; \
     gosu app /python/bin/pip install --no-cache-dir uwsgi==2.0.17;
