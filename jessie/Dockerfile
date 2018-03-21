@@ -53,7 +53,7 @@ RUN set -ex; \
 RUN set -ex \
     apt-get update -y; \
     apt-get install -q -y --no-install-recommends; \
-        git gcc make gettext gdal-bin tzdata \
+        git-core gcc make gettext gdal-bin tzdata \
         musl-dev \
         zlib1g-dev \
         libc6-dev \
