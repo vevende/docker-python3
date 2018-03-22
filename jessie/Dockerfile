@@ -61,7 +61,7 @@ RUN set -ex; \
 RUN set -ex; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-        git gcc make gettext gdal-bin tzdata \
+        git gcc make gettext gdal-bin tzdata ca-certificates \
         musl-dev \
         zlib1g-dev \
         libc6-dev \
