@@ -62,6 +62,7 @@ RUN set -ex; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
         git gcc make gettext tzdata ca-certificates \
+        gdal-bin libmemcached-dev \
         musl-dev \
         zlib1g-dev \
         libc6-dev \
