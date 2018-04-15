@@ -1,3 +1,5 @@
 
 default:
-	cd jessie && docker build -t vevende/python3:latest .
+	cd jessie && docker build \
+		--tag vevende/python3:latest \
+		--cache-from vevende/python3:latest .
