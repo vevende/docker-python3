@@ -1,4 +1,4 @@
-FROM python:3.6.4-slim
+FROM python:3.7-slim
 
 ENV LANG="C.UTF-8" \
     LC_COLLATE=C \
