@@ -11,7 +11,6 @@ HOME_APP=/home/app
 step()    { echo -e "${YELLOW}${BOLD}===> ${RESET}${*}${RESET}"; }
 success() { echo -e "${RESET}${GREEN}${BOLD}${*}${RESET}"; }
 
-step "Environment: ${ENVIRONMENT}"
 step "Current dir: $(pwd)"
 step "Python version: $(python --version)"
 
