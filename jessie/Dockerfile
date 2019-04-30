@@ -123,7 +123,10 @@ RUN set -ex \
         --no-create-home \
         --disabled-password --quiet app \
     && mkdir -p /app \
-    && mkdir -p /python;
+    && mkdir -p /python \
+    && chown app.app -R /app \
+    && chown app.app -R /python \
+    && gosu app python3 -m venv /python
 
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
