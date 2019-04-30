@@ -121,27 +121,14 @@ RUN set -ex \
     && adduser --uid 1000 \
         --gid 1000 \
         --no-create-home \
-        --disabled-password --quiet app
+        --disabled-password --quiet app \
+    && mkdir -p /app \
+    && mkdir -p /python;
 
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8
-    
-# Setup non-root user
-RUN set -eux; \
-    \
-    addgroup --gid 1000 app; \
-    adduser --uid 1000 \
-        --gid 1000 \
-        --no-create-home \
-        --disabled-password --quiet app; \
-    \
-    mkdir -p /app; \
-    mkdir -p /python; \
-    chown -R app /app; \
-    chown -R app /python;
-
-ENV PATH="/python/bin:${PATH}" \
+    LC_ALL=en_US.UTF-8 \
+    PATH="/python/bin:${PATH}" \
     XDG_CACHE_HOME="/python/cache" \
     DEFAULT_LOCAL_TMP="/python/cache" \
     PYTHONENV="/python"
