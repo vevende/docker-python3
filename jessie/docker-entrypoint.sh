@@ -1,36 +1,84 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-for f in /docker-entrypoint.d/*; do
-    if [ ! -f "$f" ]; then
-        continue
-    fi
+YELLOW="\e[0;93m"
+GREEN="\e[0;92m"
+BOLD="\e[1m"
+RESET="\e[0m"
 
-    case "$f" in
-        *.sh)
-            echo "==> running $f";
-            "$f";;
+HOME_APP=/home/app
 
-        *.py)
-            echo "==> running: $f";
-            gosu app python "$f";;
+step()    { echo -e "${YELLOW}${BOLD}===> ${RESET}${*}${RESET}"; }
+success() { echo -e "${RESET}${GREEN}${BOLD}${*}${RESET}"; }
 
-        *);;
-    esac
-done
+step "Environment: ${ENVIRONMENT}"
+step "Current dir: $(pwd)"
+step "Python version: $(python --version)"
+
+
+# SETUP AND CHECK DEFINITIONS
+
+function setup_shell() {
+    if [[ -L ${HOME_APP}/.bashrc ]]; then return 0; fi
+
+    chown app.app ${HOME_APP}/
+    gosu app ln -sf /app/.bashrc ${HOME_APP}/.bashrc
+
+    step "Setup shell $(success [Done])"
+}
+
+function setup_python_env() {
+    if [[ -f /python/bin/python ]]; then return 0; fi
+
+    (
+        set -x
+        mkdir -p /python
+        chown app.app -R /python
+        python -m venv /python
+        /python/bin/pip install --quiet setuptools wheel
+    )
+
+    step "Python environment $(success [Done])"
+}
+
+function check_permissions() {
+    (
+        find /app /python \
+            -not \( -name "frontend"  -prune \) \
+            -not \( -name "node_modules"  -prune \) \
+            -not \( -name ".git" -prune  \) \
+            -not \( -name ".cache" -prune \) \
+            -not -user app \
+            -exec chown app.app \{\} \; >/dev/null &
+
+        chown app.app /home/app >/dev/null &
+
+        wait
+    ) &
+    step "Run permissions check"
+}
+
+# SETUP AND CHECK ACTIONS
+
+(
+    setup_python_env
+    setup_shell
+    check_permissions
+)
 
 case "$1" in
     python|pip|uwsgi|-)
-        # Cleanup shortcut
-        if [ ${1} = '-' ]; then
-            shift
-        fi
-
+        # Switch to app user
+        if [[ ${1} = '-' ]]; then shift; fi
         set -- gosu app "$@"
-
         ;;
 esac
 
 
-echo "==> running: $@"
+# ENTRYPOINT
+
+step "Running: $@"
+
 exec "$@"
+
+exit 0
