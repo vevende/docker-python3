@@ -18,15 +18,6 @@ step "Python version: $(python --version)"
 
 # SETUP AND CHECK DEFINITIONS
 
-function setup_shell() {
-    if [[ -L ${HOME_APP}/.bashrc ]]; then return 0; fi
-
-    chown app.app ${HOME_APP}/
-    gosu app ln -sf /app/.bashrc ${HOME_APP}/.bashrc
-
-    step "Setup shell $(success [Done])"
-}
-
 function setup_python_env() {
     if [[ -f /python/bin/python ]]; then return 0; fi
 
@@ -62,7 +53,6 @@ function check_permissions() {
 
 (
     setup_python_env
-    setup_shell
     check_permissions
 )
 
