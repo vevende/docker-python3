@@ -50,24 +50,22 @@ function check_permissions() {
 
 # SETUP AND CHECK ACTIONS
 
-(
-    setup_python_env
-    check_permissions
-)
 
 case "$1" in
-    python|pip|uwsgi|-)
+    shell)
+        (
+            setup_python_env
+            check_permissions
+        )
+
         # Switch to app user
         if [[ ${1} = '-' ]]; then shift; fi
         set -- gosu app "$@"
-        ;;
+    ;;
 esac
 
 
 # ENTRYPOINT
 
 step "Running: $@"
-
 exec "$@"
-
-exit 0
