@@ -31,6 +31,22 @@ function setup_python_env() {
     step "Python environment $(success [Done])"
 }
 
+function setup_home_dir() {
+    if [[ -f /home/app/.initialized ]]; then return 0; fi
+
+    (
+        set -x
+        mkdir -p /home/app
+        chown app.app /home/app
+
+        if [[ -f .bashrc ]]; then ln -s .bashrc /home/app; fi
+
+        touch /home/app/.initialized
+    )
+
+    step "Setup app shell $(success [Done])"
+}
+
 function check_permissions() {
     (
         find /app /python \
@@ -54,13 +70,12 @@ function check_permissions() {
 case "$1" in
     shell)
         (
+            setup_home_dir
             setup_python_env
             check_permissions
         )
-
-        # Switch to app user
-        if [[ ${1} = '-' ]]; then shift; fi
-        set -- gosu app "$@"
+        shift
+        set -- gosu app bash
     ;;
 esac
 
