@@ -68,7 +68,7 @@ function check_permissions() {
 
 
 case "$1" in
-    shell)
+    --shell)
         (
             setup_home_dir
             setup_python_env
